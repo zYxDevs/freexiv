@@ -55,7 +55,7 @@ def fetch_user_illusts(user_id, illust_ids):
 
     params = '?work_category=illustManga&is_first_page=0'
     for illust_id in illust_ids:
-        params += '&ids[]=' + illust_id
+        params += f'&ids[]={illust_id}'
 
     resp = requests.get(url + params, headers=gen_auth_headers(), proxies=config.PROXIES) # auth and proxy needed?
     resp.raise_for_status()
@@ -87,7 +87,11 @@ def fetch_search_results(search_term):
     return resp
 
 def fetch_landing_page():
-    resp = requests.get(f'https://www.pixiv.net/ajax/top/illust', headers=gen_auth_headers(), proxies=config.PROXIES)
+    resp = requests.get(
+        'https://www.pixiv.net/ajax/top/illust',
+        headers=gen_auth_headers(),
+        proxies=config.PROXIES,
+    )
     resp.raise_for_status()
     return resp
 

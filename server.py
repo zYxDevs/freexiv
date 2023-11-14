@@ -17,9 +17,10 @@ emojis = { emoji_name: emoji_id for emoji_id, emoji_name in emojis_raw }
 
 
 def render_header():
-    html = '<style>details[open] > summary {display: none;}</style>'
-    html += '<a href="/"><h1>freexiv</h1></a><form action="/search"><input name="q"><input type="submit" value="search"></form>'
-    return html
+    return (
+        '<style>details[open] > summary {display: none;}</style>'
+        + '<a href="/"><h1>freexiv</h1></a><form action="/search"><input name="q"><input type="submit" value="search"></form>'
+    )
 
 def render_illusts_general(illusts):
     html = ''
@@ -47,7 +48,7 @@ def render_paged_illusts(illusts, render_fun=render_illusts_general):
         html += '<details><summary>load more</summary><p>'
         html += render_fun(illusts[page * api.RECOMMENDS_PAGE_SIZE: page * api.RECOMMENDS_PAGE_SIZE + api.RECOMMENDS_PAGE_SIZE])
 
-    for page in range(num_of_pages):
+    for _ in range(num_of_pages):
         html += '</p></details>'
     return html
 
@@ -117,7 +118,7 @@ def artworks(illust_id):
     html += '<h1>' + htmllib.escape(illust['illustTitle']) + '</h1>'
     html += f"<p>{illust['description']}</p>"
     html += f"<a href='/en/users/{illust['userId']}'>" + htmllib.escape(illust['userName']) + '</a>'
-    html += f"<h2>Comments</h2>"
+    html += "<h2>Comments</h2>"
 
     comments = api.fetch_comments(illust_id).json()
     for comment in comments['body']['comments']:
